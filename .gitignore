@@ -26,3 +26,5 @@
 # Ignore Spring files.
 /spring/*.pid
 /.idea
+
+/public/uploads
