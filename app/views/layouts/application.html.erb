@@ -7,7 +7,7 @@
   </head>
   <body>
     <%=render "layouts/header"%>
-    <%= react_component("hello_react", name:"React") %>
+    <%#= react_component("counter", count:10) %>
     <div class="container">
       <% flash.each do |message_type, message|%>
       <%= content_tag(:div, message, class:"alert alert-#{message_type}") %>
