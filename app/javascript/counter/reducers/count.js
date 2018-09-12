@@ -4,16 +4,16 @@ const initialState = {
   count: 0
 };
 
-export default (state = initialState, action) =>{
+export default (state = initialState, action) => {
   switch (action.type) {
     case COUNT_UP:
       return {
-          ...state,
+        ...state,
         count: ++state.count
       };
     case COUNT_DONW:
       return {
-          ...state,
+        ...state,
         count: --state.count
       }
     default:

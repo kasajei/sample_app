@@ -1,12 +1,13 @@
-import React, { Component } from "react"
+import React, {Component} from "react"
 import PropTypes from "prop-types"
+import {csrfToken} from "rails-ujs"
 
 export default class FollowButton extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
-      relationship : props.relationship
+      relationship: props.relationship
     }
   }
 
@@ -20,10 +21,10 @@ export default class FollowButton extends Component {
         followed_id: this.props.user.id
       }),
       beforeSend: function (xhr) {
-        xhr.setRequestHeader("X-CSRF-Token", $("meta[name='csrf-token']").attr("content"))
+        xhr.setRequestHeader("X-CSRF-Token", csrfToken())
       }
-    }).then((response)=>{
-      const { relationship, followers_count } = response;
+    }).then((response) => {
+      const {relationship, followers_count} = response;
       this.setState({
         relationship
       });
@@ -34,14 +35,14 @@ export default class FollowButton extends Component {
   unfollow = () => {
     $.ajax({
       type: "DELETE",
-      url : `/relationships/${this.state.relationship.id}`,
+      url: `/relationships/${this.state.relationship.id}`,
       contentType: "application/json",
       dataType: 'json',
       beforeSend: function (xhr) {
         xhr.setRequestHeader("X-CSRF-Token", $("meta[name='csrf-token']").attr("content"))
       }
-    }).then((response)=>{
-      const { relationship, followers_count } = response;
+    }).then((response) => {
+      const {relationship, followers_count} = response;
       this.setState({
         relationship: relationship
       });
@@ -56,8 +57,8 @@ export default class FollowButton extends Component {
     return (
         <div id="follow_form">
           <button className={className}
-                  onClick={ isFollowing ? this.unfollow : this.follow}>
-            { isFollowing ? "Unfollow": "Follow"}
+                  onClick={isFollowing ? this.unfollow : this.follow}>
+            {isFollowing ? "Unfollow" : "Follow"}
           </button>
         </div>
     )
@@ -69,6 +70,6 @@ FollowButton.defaultProps = {
 };
 
 FollowButton.propTypes = {
-  user:PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   relationship: PropTypes.object
 };

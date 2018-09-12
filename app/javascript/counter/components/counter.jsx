@@ -1,13 +1,13 @@
-import React, { Component } from "react"
+import React, {Component} from "react"
 import PropTypes from "prop-types"
 
-export default class Counter extends Component{
-  render (){
+export default class Counter extends Component {
+  render() {
     return (
         <div>
-          <div> { this.props.count }</div>
-          <button onClick={ this.props.onClickCountUp }>+</button>
-          <button onClick={ this.props.onClickCountDown }>-</button>
+          <div> {this.props.count}</div>
+          <button onClick={this.props.onClickCountUp}>+</button>
+          <button onClick={this.props.onClickCountDown}>-</button>
         </div>
     )
   }
@@ -18,5 +18,4 @@ Counter.propTypes = {
   onClickCountUp: PropTypes.func.isRequired,
   onClickCountDown: PropTypes.func.isRequired,
 }
-
 
