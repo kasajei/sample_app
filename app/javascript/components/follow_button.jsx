@@ -2,6 +2,16 @@ import React, {Component} from "react"
 import PropTypes from "prop-types"
 import {csrfToken} from "rails-ujs"
 
+const axiosBase = require("axios");
+const axios = axiosBase.create({
+  headers: {
+    'Content-Type': 'application/json',
+    "X-CSRF-Token": csrfToken(),
+  },
+  responseType: "json"
+});
+
+
 export default class FollowButton extends Component {
   constructor(props) {
     super(props);
@@ -12,42 +22,27 @@ export default class FollowButton extends Component {
   }
 
   follow = () => {
-    $.ajax({
-      type: 'POST',
-      url: `/relationships`,
-      dataType: 'json',
-      contentType: 'application/json',
-      data: JSON.stringify({
-        followed_id: this.props.user.id
-      }),
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader("X-CSRF-Token", csrfToken())
-      }
+    axios.post("/relationships.json", {
+      followed_id: this.props.user.id
     }).then((response) => {
-      const {relationship, followers_count} = response;
+      const {relationship, followers_count} = response.data;
       this.setState({
         relationship
       });
       $("#followers").html(followers_count);
-    })
+    });
   };
 
   unfollow = () => {
-    $.ajax({
-      type: "DELETE",
-      url: `/relationships/${this.state.relationship.id}`,
-      contentType: "application/json",
-      dataType: 'json',
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader("X-CSRF-Token", $("meta[name='csrf-token']").attr("content"))
-      }
-    }).then((response) => {
-      const {relationship, followers_count} = response;
+    axios.delete(`/relationships/${this.state.relationship.id}.json`
+    ).then((response) => {
+      console.log(response);
+      const {relationship, followers_count} = response.data;
       this.setState({
-        relationship: relationship
+        relationship
       });
       $("#followers").html(followers_count);
-    })
+    });
   };
 
   render() {
